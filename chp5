@@ -15,3 +15,22 @@ CREATE TABLE us_counties_pop_est_2019 (state_fips text, county_fips text,
 COPY us_counties_pop_est_2019
 FROM '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/us_counties_pop_est_2019.csv'
 WITH (FORMAT CSV, HEADER);
+
+SELECT county_name, state_name, area_land
+ FROM us_counties_pop_est_2019
+ ORDER BY area_land DESC
+ LIMIT 3;
+
+SELECT county_name, state_name, internal_point_lat, internal_point_lon
+ FROM us_counties_pop_est_2019
+ ORDER BY internal_point_lon DESC
+ LIMIT 8;
+
+CREATE TABLE supervisor_salaries(id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+								 town text, county text, supervisor text, start_date date, 
+								 salary numeric(10,2), benefits numeric(10,2));
+
+COPY supervisor_salaries (town, supervisor, salary)
+FROM '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/supervisor_salaries.csv'
+WITH (FORMAT CSV, HEADER);
+
