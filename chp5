@@ -34,3 +34,37 @@ COPY supervisor_salaries (town, supervisor, salary)
 FROM '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/supervisor_salaries.csv'
 WITH (FORMAT CSV, HEADER);
 
+COPY supervisor_salaries (town, supervisor, salary)
+FROM '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/supervisor_salaries.csv'
+WITH (FORMAT CSV, HEADER);
+
+COPY supervisor_salaries (town, supervisor, salary)
+FROM '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/supervisor_salaries.csv'
+WITH (FORMAT CSV, HEADER)
+WHERE town = 'New Brillig';
+
+DELETE FROM supervisor_salaries;
+
+CREATE TEMPORARY TABLE supervisor_salaries_temp(LIKE supervisor_salaries INCLUDING ALL);
+COPY supervisor_salaries_temp (town, supervisor, salary)
+FROM '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/supervisor_salaries.csv'
+WITH (FORMAT CSV, HEADER);
+INSERT INTO supervisor_salaries (town, county, supervisor, salary)
+SELECT town, 'Mills', supervisor, salary
+FROM supervisor_salaries_temp;
+DROP TABLE supervisor_salaries_temp;
+
+COPY us_counties_pop_est_2019
+TO '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/us_counties_export.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+COPY us_counties_pop_est_2019 (county_name, internal_point_lat, internal_point_lon)
+TO '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/us_counties_export.txt'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+COPY (SELECT county_name, state_name FROM us_counties_pop_est_2019 WHERE county_name
+	 ILIKE '%mill%')
+TO '/Users/brentrichman/Downloads/practical-sql-2-main/Chapter_05/us_counties_mill_expost.csv'
+WITH (FORMAT CSV, HEADER, DELIMITER '|');
+
+
